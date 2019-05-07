@@ -1,0 +1,45 @@
+---
+title: "Stats 211 Final Code"
+author: "Sacha Robbins"
+date: "3/21/2018"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+
+# Additional adjustment for study partner's mental decline 
+```{r}
+# quick diagnostics test to see that the conclusions of lrtests are safe
+presids <- residuals( fit.inf.dclin, type = "pearson" )
+muhat <- fitted( fit.inf.dclin )
+plot( muhat, presids^2, xlab="Fitted probability", ylab="Pearson Residual Squared" )
+sfit <- loess( presids^2 ~ muhat )
+lines( sfit$x[ order( sfit$x ) ], fitted(sfit)[ order( sfit$x ) ], col="red", lwd=2 )
+abline(h=1, col = "blue")
+```
+
+# Good model
+```{r}
+fit <- glm( comp.study ~ ptwhite + pteducat + factor(inf.dclin), data = studycompletion , family = binomial )
+glmCI( fit )
+
+# quick diagnostics test to see that the conclusions of lrtests are safe
+presids <- residuals( fit, type = "pearson" )
+muhat <- fitted( fit )
+plot( muhat, presids^2, xlab="Fitted probability", ylab="Pearson Residual Squared" )
+sfit <- loess( presids^2 ~ muhat )
+lines( sfit$x[ order( sfit$x ) ], fitted(sfit)[ order( sfit$x ) ], col="red", lwd=2 )
+abline(h=1, col = "blue")
+```
+
+
+
+
+
+
+
+
+
+
+
